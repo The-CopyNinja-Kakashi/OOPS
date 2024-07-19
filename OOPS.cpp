@@ -8,76 +8,68 @@ Implement a class Complex which represents the Complex Number data type. Impleme
 */
 
 
-# include<iostream>
+
+
+#include<iostream>
 using namespace std;
-class Complex                       //decaring Class Complex
- {
- double real;       
- double img;
- public: 
- Complex();            // Default Constructor
- friend istream & operator >> (istream &, Complex &); // Input 
- friend ostream & operator << (ostream &, const Complex &); // Output
- Complex operator + (Complex); // Addition
- Complex operator * (Complex); // Multiplication
- };
- Complex::Complex()                 // Default Constructor 
- {
- real = 0;
- img = 0;
- }
- istream & operator >> (istream &, Complex & i)
- {
- cin >> i.real >> i.img;
- return cin;
- }
- ostream & operator << (ostream &, const Complex & d)
- {
- cout << d.real << " + " << d.img << "i" << endl;
- return cout;
- }
- Complex Complex::operator + (Complex c1)   // Overloading + operator
- {
- Complex temp;
- temp.real = real + c1.real;
- temp.img = img + c1.img;
- return temp;
- }
- Complex Complex::operator * (Complex c2)   // Overloading * Operator
- {
- Complex tmp;
- tmp.real = real * c2.real - img * c2.img;
- tmp.img = real * c2.img + img * c2.real;
- return tmp;
- }
- int main()
- {
- Complex C1, C2, C3, C4;
- int flag = 1;
- char b;
- while (flag == 1)
- {
- cout << "Enter Real and the Imaginary part of the Complex Number 1 : \n";
- cin >> C1;
- cout << "Enter Real and the Imaginary part of the Complex Number 2 : \n";
- cin >> C2;
- int f = 1;
- while (f == 1)
- {
- cout << "Complex Number 1 is : " << C1 << endl;
- cout << "Complex Number 2 is : " << C2 << endl;
- cout << "**********MENU**********" << endl;
- cout << "1. Addition of the Complex Numbers" << endl;
- cout << "2. Multiplication of the Complex Numbers" << endl;
- cout << "3. Exit\n";
- int a;
- cout << "Enter your choice of operation from above MENU (1 to 3) : ";
- cin >> a;
- if (a == 1)
- {
- C3 = C1+C2;
- cout << "Addition : " << C3 << endl;
- cout << "Do you wan to perform another operation (y/n) : \n";
- cin >> b;
- if (b == 'y' | | b == 'Y')
- {
+
+class Complex {
+
+public:
+//Constructors
+Complex() : real(0.0), img(0.0) {} //Default Constructor
+Complex(double r, double i) : real(r), img(i) {} //User-defined Constructor
+
+// Overload + operator for addition
+Complex operator+(const Complex& other) const {
+return Complex(real + other.real, img + other.img);
+}
+
+// Overload * operator for multiplication
+Complex operator*(const Complex& other) const {
+double r = real * other.real - img * other.img;
+double i = real * other.img + img * other.real;
+return Complex(r, i);
+}
+// Input and output operators
+friend ostream& operator<<(ostream& output, const Complex& complex) {
+output << complex.real << "+" << complex.img << "i";
+return output;
+}
+
+friend istream& operator>>(istream& input, Complex& complex) {
+cout << "Enter Real Part: ";
+input >> complex.real;
+cout << "Enter Imaginary Part: ";
+input >> complex.img;
+return input;
+}
+
+private:
+// Data Members
+double real; //Real part
+double img; //Imaginary part
+};
+
+int main() {
+Complex c1(2.3, 4.5);
+Complex c2(3.4, 5.6);
+Complex c3;
+
+// Addition
+c3 = c1 + c2;
+cout << "Sum: " << c3 << endl;
+
+// Multiplication
+c3 = c1 * c2;
+cout << "Product: " << c3 << endl;
+
+// Input example
+Complex c4;
+cin >> c4;
+
+// Output exmaple
+cout << "You entered: " << c4 << endl;
+
+return 0;
+}
